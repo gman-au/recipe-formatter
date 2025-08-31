@@ -13,6 +13,11 @@
 
 <link rel="stylesheet" href="~/css/modern.css" />
 
+@if (!string.IsNullOrEmpty(Model.QrCodeBase64))
+{
+    <img class="qr-code" src="@Model.QrCodeBase64" />
+}
+
 <div class="background">
     <img class="foodImage" src="@Model.Recipe?.ImageUrl" />
     <div class="title">
@@ -67,8 +72,4 @@
             </ul>
         </div>
     </div>
-    @if (!string.IsNullOrEmpty(Model.QrCodeBase64))
-    {
-        <img src="@Model.QrCodeBase64" style="height:150px;width:150px"/>
-    }
 </div>
