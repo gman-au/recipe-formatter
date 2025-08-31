@@ -9,10 +9,17 @@ namespace Recipe.Formatter.Host.Controllers
     public class HomeController : Controller
     {
         private readonly IFormatterEngine _formatterEngine;
+        private readonly IQrCodeGenerator _qrCodeGenerator;
+        private readonly ITodoistActionGenerator _todoistActionGenerator;
 
-        public HomeController(IFormatterEngine formatterEngine)
+        public HomeController(
+            IFormatterEngine formatterEngine,
+            IQrCodeGenerator qrCodeGenerator,
+            ITodoistActionGenerator todoistActionGenerator)
         {
             _formatterEngine = formatterEngine;
+            _qrCodeGenerator = qrCodeGenerator;
+            _todoistActionGenerator = todoistActionGenerator;
         }
 
         public IActionResult Index()
@@ -28,10 +35,26 @@ namespace Recipe.Formatter.Host.Controllers
 
             try
             {
-                var response = await _formatterEngine.ProcessAsync(value);
+                var response =
+                    await
+                        _formatterEngine
+                            .ProcessAsync(value);
 
                 if (response.Success)
                 {
+                    var todoistActionValue =
+                        _todoistActionGenerator.Generate(
+                            response.Recipe.Title,
+                            response?.Recipe?.Ingredients ?? []);
+
+                    var qrCode =
+                        await
+                            _qrCodeGenerator
+                                .GenerateAsync(todoistActionValue);
+
+                    if (!string.IsNullOrEmpty(qrCode))
+                        response.QrCodeBase64 = $"data:image/png;base64,{qrCode}";
+
                     ViewBag.PageTitle = $"{response.Recipe?.Title} - ({view})";
                     return View(view, response);
                 }

@@ -67,4 +67,8 @@
             </ul>
         </div>
     </div>
+    @if (!string.IsNullOrEmpty(Model.QrCodeBase64))
+    {
+        <img src="@Model.QrCodeBase64" style="height:150px;width:150px"/>
+    }
 </div>

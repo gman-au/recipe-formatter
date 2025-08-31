@@ -31,6 +31,8 @@ namespace Recipe.Formatter.Host
                 .AddTransient<IImageFactory, ImageFactory>()
                 .AddTransient<IYieldFactory, YieldFactory>()
                 .AddTransient<ITimesFactory, TimesFactory>()
+                .AddTransient<IQrCodeGenerator, QrCodeGenerator>()
+                .AddTransient<ITodoistActionGenerator, TodoistActionGenerator>()
                 .AddTransient<IResponseFormatter, ResponseFormatter>();
 
             services
