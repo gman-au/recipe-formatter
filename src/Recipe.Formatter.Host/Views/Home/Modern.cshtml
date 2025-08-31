@@ -15,7 +15,12 @@
 
 @if (!string.IsNullOrEmpty(Model.QrCodeBase64))
 {
-    <img class="qr-code" src="@Model.QrCodeBase64" />
+    <div class="qr-code-container">
+        <img class="white-pixel" src="~/img/white_pixel.png"/>
+        <img class="qr-code" src="@Model.QrCodeBase64"/>
+        <br/>
+        <img class="todoist-logo" src="~/img/todoist-logo.webp"/>
+    </div>
 }
 
 <div class="background">
